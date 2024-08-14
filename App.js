@@ -1,36 +1,45 @@
 import { useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Button, TextInput } from "react-native";
+import { StyleSheet, Text, View, Button, TextInput, ScrollView, FlatList } from "react-native";
 
-
+import GoalItem from "./components/GoalItem";
 
 export default function App() {
+  const [enteredGoalText, setEnteredGoalText] = useState("");
+  const [courseGoals, setCourseGoals] = useState([]);
 
-const [enteredGoalText, setEnteredGoalText] = useState('');
-const [courseGoals, setCourseGoals] = useState([]);
+  function goalInputHandler(enteredText) {
+    setEnteredGoalText(enteredText);
+  }
 
-function goalInputHandler(enteredText) 
-{
-  setEnteredGoalText(enteredText);
-}
-
-function addGoalhandler() 
-{
-  setCourseGoals(currentCourseGoals => [...currentCourseGoals, enteredGoalText]);
-}
+  function addGoalhandler() {
+    setCourseGoals((currentCourseGoals) => [
+      ...currentCourseGoals,
+      {text: enteredGoalText, key: Math.random().toString()},
+    ]);
+  }
 
   return (
     <View style={styles.appContainer}>
       <View style={styles.inputContainer}>
         <TextInput
-          style={styles.textInput} placeholder="Your course goals" onChangeText={goalInputHandler}
+          style={styles.textInput}
+          placeholder="Your course goals"
+          onChangeText={goalInputHandler}
         />
-        <Button title="Add Goals" onPress={addGoalhandler}/>
+        <Button title="Add Goals" onPress={addGoalhandler} />
       </View>
 
       <View style={styles.golasContainer}>
-        {courseGoals.map((goal) => <Text key={goal}>{goal} </Text>)}
-      </View>
+      <FlatList data={courseGoals}  
+      renderItem={itemData => {  
+        return  <GoalItem text= {itemData.item.text}/>;
+      }
+      }/>
+       
+
+      </View >
+      
     </View>
   );
 }
@@ -59,4 +68,5 @@ const styles = StyleSheet.create({
   golasContainer: {
     flex: 4,
   },
+
 });
