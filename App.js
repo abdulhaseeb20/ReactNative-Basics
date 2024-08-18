@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View, FlatList, Button } from "react-native";
-
 import GoalItem from "./components/GoalItem";
 import GoalInput from "./components/GoalInput";
+
 
 export default function App() {
   const [courseGoals, setCourseGoals] = useState([]);
   const [modalVisibility, setModalVisibilty] = useState(false);
+
 
   function StartAddGoalHandler() {
     setModalVisibilty(true);
